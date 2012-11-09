@@ -115,9 +115,17 @@ if sys.argv[2] == '--list-files':
     for filename in filenames:
         print filename
     sys.exit(0)
-elif sys.argv[2] == '--missing-files':
+elif sys.argv[2] == '--missing-files' or sys.argv[2] == '--print-missing-files':
     filenames = get_album_filenames(album_id, album_key)
     filenames = get_missing_files(filenames)
+    if sys.argv[2] == '--print-missing-files':
+        for filename in filenames:
+            print filename
+        sys.exit(0)
+elif sys.argv[2].startswith("--file-list="):
+    filelist_filename = sys.argv[2].split('=')[1]
+    with open(filelist_filename, 'r') as f:
+        filenames = f.read().splitlines()
 else:
     filenames = sys.argv[2:]
 
