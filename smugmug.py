@@ -110,11 +110,14 @@ if album_id is None :
     sys.exit(1)
 
 
-if sys.argv[2] == '--missing-files':
+if sys.argv[2] == '--list-files':
+    filenames = get_album_filenames(album_id, album_key)
+    for filename in filenames:
+        print filename
+    sys.exit(0)
+elif sys.argv[2] == '--missing-files':
     filenames = get_album_filenames(album_id, album_key)
     filenames = get_missing_files(filenames)
-    for fn in filenames:
-        print fn
 else:
     filenames = sys.argv[2:]
 
