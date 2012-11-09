@@ -16,7 +16,7 @@ API_VERSION='1.2.0'
 API_URL='https://api.smugmug.com/hack/json/1.2.0/'
 UPLOAD_URL='http://upload.smugmug.com/photos/xmlrawadd.mg'
 
-import sys, re, urllib, urllib2, urlparse, hashlib, traceback, os.path
+import sys, re, urllib, urllib2, urlparse, hashlib, traceback, os
 try    : import json
 except : import simplejson as json
 
@@ -75,6 +75,23 @@ def smugmug_request(method, params) :
     request.add_header('Cookie', su_cookie)
   return safe_geturl(request)
 
+
+def get_album_filenames(album_id, album_key):
+    result = smugmug_request('smugmug.images.get',
+                             {'SessionID' : session,
+                              'AlbumID' : str(album_id),
+                              'AlbumKey' : album_key,
+                              'Heavy' : 'true'})
+    return map(lambda x: x['FileName'], result['Images'])
+
+
+def get_missing_files(album_filenames):
+    album_filenames_set = set(album_filenames)
+    local_filenames_set = set(os.listdir('.'))
+    missing_filenames_set = local_filenames_set - album_filenames_set
+    return sorted(list(missing_filenames_set))
+
+
 result = smugmug_request('smugmug.login.withPassword',
                          {'APIKey'       : APIKEY,
                           'EmailAddress' : EMAIL,
@@ -86,12 +103,22 @@ album_id = None
 for album in result['Albums'] :
   if album['Title'] == album_name :
     album_id = album['id']
+    album_key = album['Key']
     break
 if album_id is None :
   print 'That album does not exist'
   sys.exit(1)
 
-for filename in sys.argv[2:] :
+
+if sys.argv[2] == '--missing-files':
+  filenames = get_album_filenames(album_id, album_key)
+  filenames = get_missing_files(filenames)
+  for fn in filenames:
+    print fn
+else:
+  filenames = sys.argv[2:]
+
+for filename in filenames :
   data = open(filename, 'rb').read()
   print 'Uploading ' + filename
   upload_request = urllib2.Request(UPLOAD_URL,
