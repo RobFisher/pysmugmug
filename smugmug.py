@@ -5,11 +5,13 @@
 #               simplejson from http://pypi.python.org/pypi/simplejson
 ##########
 
-EMAIL='...'
-PASSWORD='...'
+import smugsettings
+
+EMAIL=smugsettings.EMAIL
+PASSWORD=smugsettings.PASSWORD
 
 ##########
-APIKEY='...'
+APIKEY=smugsettings.APIKEY
 API_VERSION='1.2.0'
 API_URL='https://api.smugmug.com/hack/json/1.2.0/'
 UPLOAD_URL='http://upload.smugmug.com/photos/xmlrawadd.mg'
