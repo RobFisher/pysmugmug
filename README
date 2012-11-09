@@ -1,0 +1,32 @@
+smugmug.py is based on SmugMug uploader by Scott Moonen:
+http://scottmoonen.com/2008/12/01/smugmug-uploader/
+
+So far I have added some extra command line options.
+
+Configuration
+-------------
+
+Copy smugsettings_example.py to smugsettings.py and fill in your
+email address and password. You also need to get your own API key
+for now and fill this in.
+
+Usage
+-----
+
+smugmug.py [Album name] [file list or options]
+
+Options:
+
+--file-list=[file]
+    Upload the files from he current directory names in file.
+
+--missing-files
+    Upload files from the current directory ot already in the album.
+
+--print-missing-files
+    Print the list of files that would be uploaded by the --missing-files
+    option.
+
+--list-files
+    Print the filenames currently in the album.
+
