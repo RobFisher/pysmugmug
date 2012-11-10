@@ -17,6 +17,10 @@ smugmug.py [Album name] [file list or options]
 
 Options:
 
+--auto
+    Read the album name from the first line of the .smugmug file instead of
+    from the command line.
+
 --file-list=[file]
     Upload the files from he current directory names in file.
 

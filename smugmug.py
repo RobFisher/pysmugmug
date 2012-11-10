@@ -96,11 +96,21 @@ def get_missing_files(album_filenames):
     return sorted(list(missing_filenames_set))
 
 
+# for now the config file is a single line containing the album name
+def read_config_file():
+    with open('.smugmug', 'r') as f:
+        configlines = f.read().splitlines()
+        return configlines[0]
+
+
 result = smugmug_request('smugmug.login.withPassword',
                          {'APIKey'       : APIKEY,
                           'EmailAddress' : EMAIL,
                           'Password'     : PASSWORD})
 session = result['Login']['Session']['id']
+
+if album_name == '--auto':
+    album_name = read_config_file()
 
 result = smugmug_request('smugmug.albums.get', {'SessionID' : session})
 album_id = None
