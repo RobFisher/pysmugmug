@@ -82,7 +82,11 @@ def get_album_filenames(album_id, album_key):
                               'AlbumID' : str(album_id),
                               'AlbumKey' : album_key,
                               'Heavy' : 'true'})
-    return map(lambda x: x['FileName'], result['Images'])
+    try:
+        filenames = map(lambda x: x['FileName'], result['Images'])
+    except KeyError:
+        filenames = []
+    return filenames
 
 
 def get_missing_files(album_filenames):
