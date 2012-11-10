@@ -48,7 +48,7 @@ def safe_geturl(request) :
             if result['stat'] != 'ok' : raise Exception('Bad result code')
             return result
         except :
-            if x < 4 :
+            if x < 4 and result['code'] != 64:
                 print "  ... failed, retrying"
             else :
                 print "  ... failed, giving up"
