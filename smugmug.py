@@ -24,6 +24,10 @@ if len(sys.argv) < 3 :
     print 'Usage:'
     print '  upload.py  album  picture1  [picture2  [...]]'
     print
+    print '  --auto for album reads the album name from'
+    print '    the first line of the .smugmug file.'
+    print '  --missing-files for picture1 uploads all files'
+    print '    not already in the album.'
     sys.exit(0)
 
 album_name = sys.argv[1]
