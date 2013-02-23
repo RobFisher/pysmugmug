@@ -34,6 +34,8 @@ def safe_geturl(request) :
 
     # Try up to three times
     for x in range(5) :
+        result = {}
+        response = None
         try :
             response_obj = urllib2.urlopen(request)
             response = response_obj.read()
@@ -48,7 +50,7 @@ def safe_geturl(request) :
             if result['stat'] != 'ok' : raise Exception('Bad result code')
             return result
         except :
-            if x < 4 and result['code'] != 64:
+            if x < 4 and ('code' not in result or result['code'] != 64):
                 print "  ... failed, retrying"
             else :
                 print "  ... failed, giving up"
