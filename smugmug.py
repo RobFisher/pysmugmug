@@ -95,7 +95,8 @@ def get_missing_files(album_filenames):
     album_filenames_set = set(album_filenames)
     local_filenames_set = set(os.listdir('.'))
     missing_filenames_set = local_filenames_set - album_filenames_set
-    return sorted(list(missing_filenames_set))
+    missing_filenames_set = filter(lambda x: not x.startswith('.'), missing_filenames_set)
+    return sorted(missing_filenames_set)
 
 
 # for now the config file is a single line containing the album name
